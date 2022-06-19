@@ -1,0 +1,6 @@
+package com.mehdilab.weather
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
