@@ -4,13 +4,12 @@ import 'package:weather/core/utils/app_urls.dart';
 
 class GraphQLService {
   //Client
-  GraphQLClient _client() {
+  GraphQLClient _client()  {
     final HttpLink httpLink = HttpLink(AppURLs.weatherEndpoint);
 
     final AuthLink authLink = AuthLink(getToken: () {});
     final policies = Policies(fetch: FetchPolicy.networkOnly);
     final Link link = authLink.concat(httpLink);
-
     return GraphQLClient(
       cache: GraphQLCache(store: HiveStore()),
       link: link,

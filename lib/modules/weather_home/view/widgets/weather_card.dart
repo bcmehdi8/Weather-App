@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:weather/core/utils/app_assets.dart';
 import 'package:weather/core/utils/app_colors.dart';
+import 'package:weather/modules/weather_home/controller/weather_home_controller.dart';
+import 'package:weather/modules/weather_home/model/location_weather_model.dart';
 
 class WeatherCard extends StatelessWidget {
   const WeatherCard({Key? key}) : super(key: key);
@@ -53,11 +57,12 @@ class WeatherCard extends StatelessWidget {
   }
 }
 
-class _BuildDateTime extends StatelessWidget {
+class _BuildDateTime extends ConsumerWidget {
   const _BuildDateTime({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final LocationWeather? cityWeatherProvider = ref.watch(weatherCityProvider);
     return Row(
       children: [
         Text(
@@ -66,7 +71,7 @@ class _BuildDateTime extends StatelessWidget {
         ),
         const Spacer(),
         Text(
-          '4:10 PM',
+          Jiffy(cityWeatherProvider?.weather.time).jm,
           style: Theme.of(context).textTheme.subtitle2!,
         ),
       ],
@@ -74,11 +79,13 @@ class _BuildDateTime extends StatelessWidget {
   }
 }
 
-class _BuildWeatherInfo extends StatelessWidget {
+class _BuildWeatherInfo extends ConsumerWidget {
   const _BuildWeatherInfo({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final LocationWeather? cityWeatherProvider = ref.watch(weatherCityProvider);
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Row(
@@ -105,7 +112,7 @@ class _BuildWeatherInfo extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '18º C',
+                    '${cityWeatherProvider?.weather.temperature.actualTemp}º C',
                     style: Theme.of(context)
                         .textTheme
                         .subtitle2!
@@ -113,7 +120,7 @@ class _BuildWeatherInfo extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Cloudy Rain',
+                    '${cityWeatherProvider?.weather.summary.title}',
                     style: Theme.of(context)
                         .textTheme
                         .subtitle2!

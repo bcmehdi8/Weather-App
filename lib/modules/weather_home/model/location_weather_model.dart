@@ -5,7 +5,7 @@ import 'package:weather/modules/weather_home/model/cordinate_model.dart';
 import 'package:weather/modules/weather_home/model/weather_model.dart';
 
 class LocationWeather {
-  final int id;
+  final String id;
   final String city;
   final String country;
   final Coordinates coordinates;
@@ -31,7 +31,7 @@ class LocationWeather {
 
   factory LocationWeather.fromMap(Map<String, dynamic> map) {
     return LocationWeather(
-      id: map['id'] as int,
+      id: map['id'] as String,
       city: map['name'] as String,
       country: map['country'] as String,
       coordinates: Coordinates.fromMap(map['coord'] as Map<String, dynamic>),
